@@ -11,5 +11,4 @@ build/
 *.iml
 *.class
 *.log
-*.csv
 *.jar
