@@ -4,17 +4,14 @@ import java.math.BigDecimal;
 
 public class Accounting {
 
-    private Integer id;
     private Integer contaContabil;
-    private Integer Data;
-    private BigDecimal Valor;
+    private Integer data;
+    private BigDecimal valor;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
+    public Accounting(Integer contaContabil, Integer data, BigDecimal valor) {
+        this.contaContabil = contaContabil;
+        this.data = data;
+        this.valor = valor;
     }
 
     public Integer getContaContabil() {
@@ -26,28 +23,27 @@ public class Accounting {
     }
 
     public Integer getData() {
-        return Data;
+        return data;
     }
 
     public void setData(Integer data) {
-        Data = data;
+        this.data = data;
     }
 
     public BigDecimal getValor() {
-        return Valor;
+        return valor;
     }
 
     public void setValor(BigDecimal valor) {
-        Valor = valor;
+        this.valor = valor;
     }
 
     @Override
     public String toString() {
         return "Accounting{" +
-                "id=" + id +
-                ", contaContabil=" + contaContabil +
-                ", Data=" + Data +
-                ", Valor=" + Valor +
+                "contaContabil=" + contaContabil +
+                ", data=" + data +
+                ", valor=" + valor +
                 '}';
     }
 }
