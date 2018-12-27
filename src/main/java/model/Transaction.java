@@ -2,7 +2,7 @@ package model;
 
 import java.math.BigDecimal;
 
-public class transaction {
+public class Transaction {
 
     private Long timestamp;
     private BigDecimal amount;
@@ -25,7 +25,7 @@ public class transaction {
 
     @Override
     public String toString() {
-        return "transaction{" +
+        return "Transaction{" +
                 "timestamp=" + timestamp +
                 ", amount=" + amount +
                 '}';

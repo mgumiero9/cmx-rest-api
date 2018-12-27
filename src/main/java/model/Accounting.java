@@ -2,7 +2,7 @@ package model;
 
 import java.math.BigDecimal;
 
-public class accounting {
+public class Accounting {
 
     private Integer id;
     private Integer contaContabil;
@@ -43,7 +43,7 @@ public class accounting {
 
     @Override
     public String toString() {
-        return "accounting{" +
+        return "Accounting{" +
                 "id=" + id +
                 ", contaContabil=" + contaContabil +
                 ", Data=" + Data +
