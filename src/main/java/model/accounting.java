@@ -4,9 +4,18 @@ import java.math.BigDecimal;
 
 public class accounting {
 
+    private Integer id;
     private Integer contaContabil;
     private Integer Data;
     private BigDecimal Valor;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public Integer getContaContabil() {
         return contaContabil;
@@ -35,7 +44,8 @@ public class accounting {
     @Override
     public String toString() {
         return "accounting{" +
-                "contaContabil=" + contaContabil +
+                "id=" + id +
+                ", contaContabil=" + contaContabil +
                 ", Data=" + Data +
                 ", Valor=" + Valor +
                 '}';
