@@ -4,6 +4,7 @@ gradle.properties
 .project
 .settings
 .gradle/
+.idea
 classes/
 build/
 /build/
@@ -11,4 +12,4 @@ build/
 *.class
 *.log
 *.csv
-.idea
+*.jar
