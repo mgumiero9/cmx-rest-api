@@ -1,0 +1,14 @@
+gradle.properties
+.DS_Store
+.classpath
+.project
+.settings
+.gradle/
+classes/
+build/
+/build/
+*.iml
+*.class
+*.log
+*.csv
+.idea
