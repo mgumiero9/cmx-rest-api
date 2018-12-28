@@ -1,6 +1,7 @@
 package application.model;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class IMDatabase {
 
@@ -22,6 +23,8 @@ public class IMDatabase {
     }
 
     public Accounting save(Accounting accountingEntry) {
+        String uniqueId = UUID.randomUUID().toString();
+        accountingEntry.setId(uniqueId);
         this.accountEntries.add(accountingEntry);
         return accountingEntry;
     }
