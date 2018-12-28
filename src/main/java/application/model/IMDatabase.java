@@ -22,11 +22,11 @@ public class IMDatabase {
         return accountEntries;
     }
 
-    public Accounting save(Accounting accountingEntry) {
+    public String save(Accounting accountingEntry) {
         String uniqueId = UUID.randomUUID().toString();
         accountingEntry.setId(uniqueId);
         this.accountEntries.add(accountingEntry);
-        return accountingEntry;
+        return accountingEntry.getId();
     }
 
 }
