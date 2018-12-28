@@ -20,17 +20,14 @@ import java.util.Map;
 @RestController
 public class AccountingController implements ErrorController {
 
-    private final static String GET_ACCOUNTING_PATH = "/get-accounting";
-    private final static String ERRORPATH = "/error";
-
-    @GetMapping(GET_ACCOUNTING_PATH)
+    @GetMapping("/get-accounting")
     private Accounting GetAccountingFirst() {
         System.out.println("test");
         return new Accounting(1, 1, new BigDecimal(1000));
     }
 
     @Override
-    @GetMapping(ERRORPATH)
+    @GetMapping("/error")
     public String getErrorPath() {
         return "No Mapping Found";
     }
