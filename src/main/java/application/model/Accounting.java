@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 public class Accounting {
 
     private String id;
-    @NotNull
+    @NotNull(message = "Conta Contábil field cannot be null")
     private Integer contaContabil;
     @Digits(integer = 8, fraction = 0)
     private Integer data;

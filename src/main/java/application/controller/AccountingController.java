@@ -14,13 +14,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
+import javax.validation.*;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 @RestController
 public class AccountingController implements ErrorController {
+
+    private ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+    private Validator validator = factory.getValidator();
 
     @GetMapping("/get-accounting")
     private Accounting GetAccountingFirst() {
@@ -36,14 +40,18 @@ public class AccountingController implements ErrorController {
 
     @PostMapping("/lancamentos-contabeis")
     private ResponseEntity<JsonNode> newAccountEntry(@Valid @RequestBody Accounting newAccountEntry, Errors errors) {
-
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, String> responseJson = new HashMap<>();
-
-        responseJson.put("ID", IMDatabase.getInstance().save(newAccountEntry));
-        JsonNode jsonNode = objectMapper.valueToTree(responseJson);
-
-        return new ResponseEntity<>(jsonNode, HttpStatus.CREATED);
+        Set<ConstraintViolation<Accounting>> violations = validator.validate(newAccountEntry);
+        if (violations.size() == 0) {
+            responseJson.put("ID", IMDatabase.getInstance().save(newAccountEntry));
+            JsonNode jsonNode = objectMapper.valueToTree(responseJson);
+            return new ResponseEntity<>(jsonNode, HttpStatus.CREATED);
+        } else {
+            responseJson.put("Error", violations.iterator().next().getMessage());
+            JsonNode jsonNode = objectMapper.valueToTree(responseJson);
+            return new ResponseEntity<>(jsonNode, HttpStatus.BAD_REQUEST);
+        }
     }
 
 }
