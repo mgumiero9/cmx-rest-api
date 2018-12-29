@@ -22,6 +22,16 @@ public class IMDatabase {
         return accountEntries;
     }
 
+    public Accounting getAccountEntry(String id) {
+        Accounting accountEntry = null;
+        for (Accounting entry : accountEntries) {
+            if (entry.getId().contains(id)) {
+                accountEntry = entry;
+            }
+        }
+        return accountEntry;
+    }
+
     public String save(Accounting accountingEntry) {
         String uniqueId = UUID.randomUUID().toString();
         accountingEntry.setId(uniqueId);
