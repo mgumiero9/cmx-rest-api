@@ -8,11 +8,14 @@ import java.math.BigDecimal;
 public class Accounting {
 
     private String id;
+
     @NotNull(message = "Conta Contábil field cannot be null")
     private Integer contaContabil;
+
     @NotNull(message = "Field Data cannot be null")
     @Digits(integer = 8, fraction = 0, message = "Field Data allows 8 digits (Integer)")
     private Integer data;
+
     @Min(0)
     @NotNull(message = "Field Valor cannot be null")
     @Digits(integer = 20, fraction = 2, message = "Field Valor allows 20 digits (Integer) and 2 decimal")

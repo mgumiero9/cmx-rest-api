@@ -21,21 +21,38 @@ public class AccountingController implements ErrorController {
 
     private ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
     private Validator validator = factory.getValidator();
+    private ObjectMapper objectMapper = new ObjectMapper();
 
-    @GetMapping("/lancamentos-contabeis")
+    @GetMapping("/lancamentos-contabeis/all")
     private ArrayList<Accounting> getAll() {
         return IMDatabase.getInstance().getAccountEntries();
     }
 
     @GetMapping("/lancamentos-contabeis/{id}")
-    private Accounting getAccountingEntry(@PathVariable String id) {
-        return IMDatabase.getInstance().getAccountEntry(id);
+    private ResponseEntity<JsonNode> getById(@PathVariable String id) {
+        HttpStatus status;
+        JsonNode jsonNode;
+        Map<String, String> map = new HashMap<>();
+        Accounting responseJson = IMDatabase.getInstance().getRowById(id);
+        if (responseJson != null) {
+            jsonNode = objectMapper.valueToTree(responseJson);
+            status = HttpStatus.CREATED;
+        } else {
+            map.put("Info","No Content found");
+            jsonNode = objectMapper.valueToTree(map);
+            status = HttpStatus.NO_CONTENT;
+        }
+        return new ResponseEntity<>(jsonNode, status);
+    }
+
+    @GetMapping("/lancamentos-contabeis")
+    private @ResponseBody ArrayList<Accounting> getByAccount(@RequestParam Integer contaContabil) {
+        return IMDatabase.getInstance().getRowsByAccount(contaContabil);
     }
 
     @PostMapping("/lancamentos-contabeis")
     private ResponseEntity<JsonNode> newAccountEntry(@Valid @RequestBody Accounting newAccountEntry, Errors errors) {
         HttpStatus status;
-        ObjectMapper objectMapper = new ObjectMapper();
         Map<String, String> responseJson = new HashMap<>();
         Set<ConstraintViolation<Accounting>> violations = validator.validate(newAccountEntry);
         if (violations.size() == 0) {
