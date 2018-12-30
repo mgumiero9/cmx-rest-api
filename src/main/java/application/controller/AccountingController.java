@@ -2,6 +2,7 @@ package application.controller;
 
 import application.model.Accounting;
 import application.model.IMDatabase;
+import application.model.Statistics;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.boot.web.servlet.error.ErrorController;
@@ -48,6 +49,11 @@ public class AccountingController implements ErrorController {
     @GetMapping("/lancamentos-contabeis")
     private @ResponseBody ArrayList<Accounting> getByAccount(@RequestParam Integer contaContabil) {
         return IMDatabase.getInstance().getRowsByAccount(contaContabil);
+    }
+
+    @GetMapping("/lancamentos-contabeis/_stats")
+    private Statistics getStatistics() {
+        return IMDatabase.getInstance().getStats();
     }
 
     @PostMapping("/lancamentos-contabeis")

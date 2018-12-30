@@ -1,12 +1,13 @@
 package application.model;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.UUID;
 
 public class IMDatabase {
 
     private static IMDatabase instance;
-
     private ArrayList<Accounting> accountEntries = new ArrayList<>();
 
     private IMDatabase() {}
@@ -40,6 +41,28 @@ public class IMDatabase {
             }
         }
         return entries;
+    }
+
+    public Statistics getStats() {
+        long soma;
+        int qtde = 0;
+        Statistics stats = new Statistics();
+        ArrayList<Long> numbers = new ArrayList<>();
+        for (Accounting entry: accountEntries) {
+            numbers.add(entry.getValor().longValue());
+            qtde++;
+        }
+        if (numbers.size() > 0) {
+            stats.setMax(BigDecimal.valueOf(Collections.max(numbers)));
+            stats.setMin(BigDecimal.valueOf(Collections.min(numbers)));
+            soma = numbers.stream().reduce(0L, (e1, e2) -> e1 + e2);
+            stats.setSoma(BigDecimal.valueOf(soma));
+            stats.setMedia(BigDecimal.valueOf(soma / qtde));
+            stats.setQtde(qtde);
+            return stats;
+        } else {
+            return null;
+        }
     }
 
     public String save(Accounting accountingEntry) {
