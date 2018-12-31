@@ -1,10 +1,10 @@
 import application.model.Accounting;
 import application.model.IMDatabase;
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import java.math.BigDecimal;
 
-import static org.junit.Assert.assertEquals;
+import static org.testng.AssertJUnit.assertEquals;
 
 public class AssertTests {
 
