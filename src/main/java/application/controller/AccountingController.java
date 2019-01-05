@@ -13,10 +13,9 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -51,7 +50,7 @@ public class AccountingController implements ErrorController {
 
     @GetMapping("/lancamentos-contabeis")
     private @ResponseBody ArrayList<Accounting> getByAccount(@RequestParam Integer contaContabil) {
-        return IMDatabase.getInstance().getRowsByAccount(contaContabil);
+        return IMDatabase.getInstance().getRowsByAccount(validateAccount(contaContabil));
     }
 
     @GetMapping("/lancamentos-contabeis/_stats")
@@ -62,6 +61,7 @@ public class AccountingController implements ErrorController {
     @PostMapping("/lancamentos-contabeis")
     private ResponseEntity<JsonNode> newAccountEntry(@Valid @RequestBody Accounting newAccountEntry, Errors errors) {
         HttpStatus status;
+        validateDate(newAccountEntry);
         Map<String, String> responseJson = new HashMap<>();
         Set<ConstraintViolation<Accounting>> violations = validator.validate(newAccountEntry);
         if (violations.size() == 0) {
@@ -75,10 +75,18 @@ public class AccountingController implements ErrorController {
         return new ResponseEntity<>(jsonNode, status);
     }
 
-    @Override
-    @GetMapping("/error")
-    public String getErrorPath() {
-        return "Error: Bad Request.";
+    private void validateDate(@RequestBody @Valid Accounting newAccountEntry) throws InputException {
+        final String dataStr = newAccountEntry.getData().toString();
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+        try {
+            Date date = format.parse(dataStr);
+            if (!format.format(date).equals(dataStr.trim())) {
+                throw new InputException("Date is not valid.");
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+            throw new InputException("Date is not valid.");
+        }
     }
 
     private Integer validateAccount(Integer contaContabil) throws InputException {
@@ -95,4 +103,11 @@ public class AccountingController implements ErrorController {
             throw new InputException("contaContabil accepts maximum of 8 digit values");
         }
     }
+
+    @Override
+    @GetMapping("/error")
+    public String getErrorPath() {
+        return "Error: Bad Request.";
+    }
+
 }
