@@ -1,5 +1,6 @@
 package application.controller;
 
+import application.exception.InputException;
 import application.model.Accounting;
 import application.model.IMDatabase;
 import application.model.Statistics;
@@ -16,6 +17,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RestController
 public class AccountingController implements ErrorController {
@@ -53,7 +56,7 @@ public class AccountingController implements ErrorController {
 
     @GetMapping("/lancamentos-contabeis/_stats")
     private @ResponseBody Statistics getStatistics(Integer contaContabil) {
-        return IMDatabase.getInstance().getStats(contaContabil);
+        return IMDatabase.getInstance().getStats(validateAccount(contaContabil));
     }
 
     @PostMapping("/lancamentos-contabeis")
@@ -75,6 +78,21 @@ public class AccountingController implements ErrorController {
     @Override
     @GetMapping("/error")
     public String getErrorPath() {
-        return "No Mapping Found";
+        return "Error: Bad Request.";
+    }
+
+    private Integer validateAccount(Integer contaContabil) throws InputException {
+        if (contaContabil == null) return null;
+        final String regex = "^\\d{1,8}$";
+        final String string = String.valueOf(contaContabil);
+
+        final Pattern pattern = Pattern.compile(regex);
+        final Matcher matcher = pattern.matcher(string);
+
+        if (matcher.find()) {
+            return contaContabil;
+        } else {
+            throw new InputException("contaContabil accepts maximum of 8 digit values");
+        }
     }
 }
