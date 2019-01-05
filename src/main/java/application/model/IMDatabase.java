@@ -44,7 +44,7 @@ public class IMDatabase {
     }
 
     public Statistics getStats(Integer contaContabil) {
-        long soma;
+        double soma;
         int qtde = 0;
         Statistics stats = new Statistics();
         ArrayList<Long> numbers = new ArrayList<>();
