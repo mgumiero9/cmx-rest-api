@@ -43,14 +43,21 @@ public class IMDatabase {
         return entries;
     }
 
-    public Statistics getStats() {
+    public Statistics getStats(Integer contaContabil) {
         long soma;
         int qtde = 0;
         Statistics stats = new Statistics();
         ArrayList<Long> numbers = new ArrayList<>();
         for (Accounting entry: accountEntries) {
-            numbers.add(entry.getValor().longValue());
-            qtde++;
+            if (contaContabil != null) {
+                if (entry.getContaContabil().equals(contaContabil)) {
+                    numbers.add(entry.getValor().longValue());
+                    qtde++;
+                }
+            } else {
+                numbers.add(entry.getValor().longValue());
+                qtde++;
+            }
         }
         if (numbers.size() > 0) {
             stats.setMax(BigDecimal.valueOf(Collections.max(numbers)));

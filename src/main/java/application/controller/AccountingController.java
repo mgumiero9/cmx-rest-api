@@ -52,8 +52,8 @@ public class AccountingController implements ErrorController {
     }
 
     @GetMapping("/lancamentos-contabeis/_stats")
-    private Statistics getStatistics() {
-        return IMDatabase.getInstance().getStats();
+    private @ResponseBody Statistics getStatistics(Integer contaContabil) {
+        return IMDatabase.getInstance().getStats(contaContabil);
     }
 
     @PostMapping("/lancamentos-contabeis")
