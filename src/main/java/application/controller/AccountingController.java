@@ -6,6 +6,10 @@ import application.model.IMDatabase;
 import application.model.Statistics;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +23,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Api(value = "Accounting", description = "Comex Backend Test - Java.")
 @RestController
 public class AccountingController implements ErrorController {
 
@@ -26,11 +31,15 @@ public class AccountingController implements ErrorController {
     private Validator validator = factory.getValidator();
     private ObjectMapper objectMapper = new ObjectMapper();
 
+    @ApiImplicitParams(value = {})
+    @ApiOperation("This GETs all the Accounting Entries.")
     @GetMapping("/lancamentos-contabeis/all")
     private ArrayList<Accounting> getAll() {
         return IMDatabase.getInstance().getAccountEntries();
     }
 
+    @ApiImplicitParams(value = {@ApiImplicitParam(name = "id", value = "", dataType = "java.lang.String")})
+    @ApiOperation("This GETs Accounting record filtered by account entry ID")
     @GetMapping("/lancamentos-contabeis/{id}")
     private ResponseEntity<JsonNode> getById(@PathVariable String id) {
         HttpStatus status;
@@ -41,23 +50,32 @@ public class AccountingController implements ErrorController {
             jsonNode = objectMapper.valueToTree(responseJson);
             status = HttpStatus.CREATED;
         } else {
-            map.put("Info","No Content found");
+            map.put("Info", "No Content found");
             jsonNode = objectMapper.valueToTree(map);
             status = HttpStatus.NO_CONTENT;
         }
         return new ResponseEntity<>(jsonNode, status);
     }
 
+    @ApiImplicitParams(value = {@ApiImplicitParam(name = "contaContabil", value = "", dataType = "java.lang.Integer")})
+    @ApiOperation("This GETs Accounting record filtered by Conta Contabil.")
     @GetMapping("/lancamentos-contabeis")
-    private @ResponseBody ArrayList<Accounting> getByAccount(@RequestParam Integer contaContabil) {
+    private @ResponseBody
+    ArrayList<Accounting> getByAccount(@RequestParam Integer contaContabil) {
         return IMDatabase.getInstance().getRowsByAccount(validateAccount(contaContabil));
     }
 
+    @ApiImplicitParams(value = {@ApiImplicitParam(name = "contaContabil", value = "", dataType = "java.lang.Integer")})
+    @ApiOperation("This GETs Accounting statistics. If you specify a Conta Contabil parameter, it narrows the statistics results.")
     @GetMapping("/lancamentos-contabeis/_stats")
-    private @ResponseBody Statistics getStatistics(Integer contaContabil) {
+    private @ResponseBody
+    Statistics getStatistics(Integer contaContabil) {
         return IMDatabase.getInstance().getStats(validateAccount(contaContabil));
     }
 
+    @ApiImplicitParams(value = {@ApiImplicitParam(name = "newAccountEntry", value = "", dataType = "application.model.Accounting"),
+            @ApiImplicitParam(name = "errors", value = "", dataType = "org.springframework.validation.Errors")})
+    @ApiOperation("This POSTs Accounting Entry.")
     @PostMapping("/lancamentos-contabeis")
     private ResponseEntity<JsonNode> newAccountEntry(@Valid @RequestBody Accounting newAccountEntry, Errors errors) {
         HttpStatus status;

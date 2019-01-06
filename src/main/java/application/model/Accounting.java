@@ -1,5 +1,7 @@
 package application.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -22,7 +24,20 @@ public class Accounting {
     @Digits(integer = 20, fraction = 2, message = "Field Valor allows Up to 20 digits (Integer) and 2 (decimal)")
     private BigDecimal valor;
 
-    public Accounting(Integer contaContabil, Integer data, BigDecimal valor) {
+    public Accounting() {
+        super();
+    }
+
+    public Accounting(@JsonProperty("id") String id, @JsonProperty("contaContabil") Integer contaContabil,
+                      @JsonProperty("data") Integer data, @JsonProperty("valor") BigDecimal valor) {
+        this.id = id;
+        this.contaContabil = contaContabil;
+        this.data = data;
+        this.valor = valor;
+    }
+
+    public Accounting(@JsonProperty("contaContabil") Integer contaContabil, @JsonProperty("data") Integer data,
+                      @JsonProperty("valor") BigDecimal valor) {
         this.contaContabil = contaContabil;
         this.data = data;
         this.valor = valor;
