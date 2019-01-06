@@ -19,10 +19,10 @@ public class AssertTests {
         IMDatabase.getInstance().save(new Accounting(1234, 20181111, new BigDecimal(2000)));
         IMDatabase.getInstance().save(new Accounting(1234, 20181111, new BigDecimal(4000)));
         IMDatabase.getInstance().save(new Accounting(1234, 20181111, new BigDecimal(6000)));
-        assertEquals(new BigDecimal(4000), IMDatabase.getInstance().getStats(null).getMedia());
-        assertEquals(new BigDecimal(12000), IMDatabase.getInstance().getStats(null).getSoma());
-        assertEquals(new BigDecimal(6000), IMDatabase.getInstance().getStats(null).getMax());
-        assertEquals(new BigDecimal(2000), IMDatabase.getInstance().getStats(null).getMin());
+        assertEquals(4000.0D,   IMDatabase.getInstance().getStats(null).getMedia().doubleValue(),0.00);
+        assertEquals(12000.0D,  IMDatabase.getInstance().getStats(null).getSoma().doubleValue(),0.00);
+        assertEquals(6000.0D,   IMDatabase.getInstance().getStats(null).getMax().doubleValue(),0.00);
+        assertEquals(2000.0D,   IMDatabase.getInstance().getStats(null).getMin().doubleValue(),0.00);
         assertEquals(Integer.valueOf(3), IMDatabase.getInstance().getStats(null).getQtde());
     }
 
