@@ -1,5 +1,3 @@
-# README.md sample
-
 # Table of contents
 
 This project contains the main REST API for Comex test.
