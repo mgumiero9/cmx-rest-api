@@ -1,0 +1,260 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "\"Spring Boot REST API for Comex Test\"",
+    "version": "1.0.0",
+    "title": "Spring Boot REST API",
+    "license": {
+      "name": "Apache License Version 2.0",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0\""
+    }
+  },
+  "host": "localhost:8080",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "accounting-controller",
+      "description": "Comex Backend Test - Java."
+    }
+  ],
+  "paths": {
+    "/lancamentos-contabeis": {
+      "get": {
+        "tags": [
+          "accounting-controller"
+        ],
+        "summary": "This GETs Accounting record filtered by Conta Contabil.",
+        "operationId": "getByAccountUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "contaContabil",
+            "in": "query",
+            "required": false,
+            "type": "ref"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Accounting"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      },
+      "post": {
+        "tags": [
+          "accounting-controller"
+        ],
+        "summary": "This POSTs Accounting Entry.",
+        "operationId": "newAccountEntryUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "newAccountEntry",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/application.model.Accounting"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/JsonNode"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/lancamentos-contabeis/_stats": {
+      "get": {
+        "tags": [
+          "accounting-controller"
+        ],
+        "summary": "This GETs Accounting statistics. If you specify a Conta Contabil parameter, it narrows the statistics results.",
+        "operationId": "getStatisticsUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "contaContabil",
+            "in": "query",
+            "required": false,
+            "type": "ref"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Statistics"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/lancamentos-contabeis/all": {
+      "get": {
+        "tags": [
+          "accounting-controller"
+        ],
+        "summary": "This GETs all the Accounting Entries.",
+        "operationId": "getAllUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Accounting"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/lancamentos-contabeis/{id}": {
+      "get": {
+        "tags": [
+          "accounting-controller"
+        ],
+        "summary": "This GETs Accounting record filtered by account entry ID",
+        "operationId": "getByIdUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": false,
+            "type": "ref"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/JsonNode"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    }
+  },
+  "definitions": {
+    "Accounting": {
+      "type": "object",
+      "properties": {
+        "contaContabil": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "data": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "id": {
+          "type": "string"
+        },
+        "valor": {
+          "type": "number"
+        }
+      },
+      "title": "Accounting"
+    },
+    "Statistics": {
+      "type": "object",
+      "properties": {
+        "max": {
+          "type": "number"
+        },
+        "media": {
+          "type": "number"
+        },
+        "min": {
+          "type": "number"
+        },
+        "qtde": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "soma": {
+          "type": "number"
+        }
+      },
+      "title": "Statistics"
+    }
+  }
+}
