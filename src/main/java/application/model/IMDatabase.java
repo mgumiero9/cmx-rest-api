@@ -47,22 +47,22 @@ public class IMDatabase {
         double soma;
         int qtde = 0;
         Statistics stats = new Statistics();
-        ArrayList<Long> numbers = new ArrayList<>();
+        ArrayList<Long> items = new ArrayList<>();
         for (Accounting entry: accountEntries) {
             if (contaContabil != null) {
                 if (entry.getContaContabil().equals(contaContabil)) {
-                    numbers.add(entry.getValor().longValue());
+                    items.add(entry.getValor().longValue());
                     qtde++;
                 }
             } else {
-                numbers.add(entry.getValor().longValue());
+                items.add(entry.getValor().longValue());
                 qtde++;
             }
         }
-        if (numbers.size() > 0) {
-            stats.setMax(BigDecimal.valueOf(Collections.max(numbers)));
-            stats.setMin(BigDecimal.valueOf(Collections.min(numbers)));
-            soma = numbers.stream().reduce(0L, (e1, e2) -> e1 + e2);
+        if (items.size() > 0) {
+            stats.setMax(BigDecimal.valueOf(Collections.max(items)));
+            stats.setMin(BigDecimal.valueOf(Collections.min(items)));
+            soma = items.stream().reduce(0L, (e1, e2) -> e1 + e2);
             stats.setSoma(BigDecimal.valueOf(soma));
             stats.setMedia(BigDecimal.valueOf(soma / qtde));
             stats.setQtde(qtde);
