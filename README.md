@@ -4,6 +4,14 @@
 
 This project contains the main REST API for Comex test.
 
+Technologies used:
+
+- Java
+- SpringBoot
+- REST API
+- Swagger Open API
+- JUnit
+
 ## Requirements
 
 * JDK 8
