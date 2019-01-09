@@ -45,3 +45,7 @@ cd cmx-rest-api
 
 - Run bootRun
 - Access this hyperlink: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html):
+
+### Please see the image file below, located at the root:
+
+"telaExemploConfiguracao.png"
