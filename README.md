@@ -49,3 +49,5 @@ cd cmx-rest-api
 ### Please see the image file below, located at the root:
 
 "telaExemploConfiguracao.png"
+
+https://github.com/mgumiero9/cmx-rest-api/blob/master/TelaExemploConfiguracao.png
